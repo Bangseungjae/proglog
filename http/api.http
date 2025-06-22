@@ -1,0 +1,22 @@
+### GET request to example server
+GET https://examples.http-client.intellij.net/get
+    ?generated-in=GoLand
+
+### record POST
+POST http://localhost:8080/
+Content-Type: application/json
+
+{
+  "record": {
+    "value": "TGV0J320dkk=",
+    "timestamp": "2025-06-21T08:05:24Z"
+  }
+}
+
+### record GET
+GET http://localhost:8080/
+Content-Type: application/json
+
+{
+  "offset": 0
+}
