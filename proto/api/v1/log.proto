@@ -1,7 +1,5 @@
 syntax = "proto3";
-
 package log.v1;
-
 option go_package = "github.com/Bangseungjae/proglog/proto/api/v1";
 
 message Record {
@@ -9,31 +7,25 @@ message Record {
   uint64 offset = 2;
 }
 
-service Log {
-  rpc Produce(ProduceRequest) returns (ProduceResponse) {}
-  rpc Consume(ConsumeRequest) returns (ConsumeResponse) {}
-  // 서버 측 스트리밍 rpc
-  rpc ConsumeStream(ConsumeRequest) returns (stream ConsumeResponse) {}
-  // 양방향 스트리밍 rpc
-  rpc ProduceStream(stream ProduceRequest) returns (stream ProduceResponse) {}
-}
-
-// 로그에서 생성할 레코드
 message ProduceRequest {
   Record record = 1;
 }
 
-// 레코드의 오프셋
 message ProduceResponse {
   uint64 offset = 1;
 }
 
-// 로그에서 소비할 레코드의 오프셋
 message ConsumeRequest {
   uint64 offset = 1;
 }
 
-// 저장된 레코드 회신
 message ConsumeResponse {
   Record record = 1;
+}
+
+service Log {
+  rpc Produce(ProduceRequest) returns (ProduceResponse) {}
+  rpc Consume(ConsumeRequest) returns (ConsumeResponse) {}
+  rpc ConsumeStream(ConsumeRequest) returns (stream ConsumeResponse) {}
+  rpc ProduceStream(stream ProduceRequest) returns (stream ProduceResponse) {}
 }

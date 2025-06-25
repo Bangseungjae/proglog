@@ -1,8 +1,7 @@
 package log
 
 import (
-	"fmt"
-	v1 "github.com/Bangseungjae/proglog/proto/api/v1"
+	api "github.com/Bangseungjae/proglog/proto/api/v1"
 	"io"
 	"os"
 	"path"
@@ -68,7 +67,7 @@ func (l *Log) setup() error {
 	return nil
 }
 
-func (l *Log) Append(record *v1.Record) (uint64, error) {
+func (l *Log) Append(record *api.Record) (uint64, error) {
 	l.mu.Lock()
 	defer l.mu.Unlock()
 
@@ -81,7 +80,7 @@ func (l *Log) Append(record *v1.Record) (uint64, error) {
 	return l.activeSegment.Append(record)
 }
 
-func (l *Log) Read(off uint64) (*v1.Record, error) {
+func (l *Log) Read(off uint64) (*api.Record, error) {
 	l.mu.RLock()
 	defer l.mu.RUnlock()
 	var s *segment
@@ -92,7 +91,7 @@ func (l *Log) Read(off uint64) (*v1.Record, error) {
 		}
 	}
 	if s == nil || s.nextOffset <= off {
-		return nil, fmt.Errorf("offset out of range: %d", off)
+		return nil, api.ErrOffsetOutOfRange{Offset: off}
 	}
 	return s.Read(off)
 }
