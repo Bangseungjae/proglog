@@ -32,3 +32,10 @@ go install github.com/cloudflare/cfssl/cmd/cfssljson@v1.6.1
 ```bash
 go get github.com/casbin/casbin@v1.9.1
 ```
+
+## 서프
+서비스 디스커버리
+
+```bash
+go get github.com/hashicorp/serf@v0.9.7
+```
