@@ -41,7 +41,7 @@ type Config struct {
 	RPCPort         int
 	NodeName        string
 	StartJoinAddrs  []string
-	ACLModeFile     string
+	ACLModelFile    string
 	ACLPolicyFile   string
 	Bootstrap       bool
 }
@@ -115,7 +115,7 @@ func (a *Agent) setupLog() error {
 
 func (a *Agent) setupServer() error {
 	authorizer := auth.New(
-		a.Config.ACLModeFile,
+		a.Config.ACLModelFile,
 		a.Config.ACLPolicyFile,
 	)
 	serverConfig := &server.Config{
