@@ -30,6 +30,24 @@ type CommitLog interface {
 type Config struct {
 	CommitLog
 	Authorizer Authorizer
+	GetServer  GetServer
+}
+
+func (s *grpcServer) GetServers(
+	ctx context.Context,
+	req *api.GetServerRequest,
+) (*api.GetServerResponse, error) {
+	servers, err := s.GetServer.GetServers()
+	if err != nil {
+		return nil, err
+	}
+	return &api.GetServerResponse{
+		Servers: servers,
+	}, nil
+}
+
+type GetServer interface {
+	GetServers() ([]*api.Server, error)
 }
 
 const (
