@@ -9,6 +9,7 @@ spec:
     matchLabels: {{ include "proglog.selectorLabels" . | nindent 6 }}
   serviceName: {{ include "proglog.fullname" . }}
   replicas: {{ .Values.replicas }}
+  podManagementPolicy: OrderedReady
   template:
     metadata:
       name: {{ include "proglog.fullname" . }}

@@ -48,15 +48,15 @@ func (l *DistributedLog) setupLog(dataDir string) error {
 
 func (l *DistributedLog) setupRaft(dataDir string) error {
 	fsm := &fsm{log: l.log}
+
 	logDir := filepath.Join(dataDir, "raft", "log")
 	if err := os.MkdirAll(logDir, 0755); err != nil {
 		return err
 	}
 	logConfig := l.config
 	logConfig.Segment.InitialOffset = 1
-
 	var err error
-	l.raftLog, err = newLogStore(logDir, logConfig)
+	l.raftLog, err = newLogStore(logDir, logConfig) // nicewook. logStore 역시 Close 해주어야 한다
 	if err != nil {
 		return err
 	}
@@ -77,6 +77,7 @@ func (l *DistributedLog) setupRaft(dataDir string) error {
 	if err != nil {
 		return err
 	}
+
 	maxPool := 5
 	timeout := 10 * time.Second
 	transport := raft.NewNetworkTransport(
@@ -104,7 +105,7 @@ func (l *DistributedLog) setupRaft(dataDir string) error {
 	l.raft, err = raft.NewRaft(
 		config,
 		fsm,
-		l.raftLog,
+		l.raftLog, // nicewook. logStore 역시 Close 해주어야 한다
 		stableStore,
 		snapshotStore,
 		transport,
@@ -113,7 +114,7 @@ func (l *DistributedLog) setupRaft(dataDir string) error {
 		return err
 	}
 	hasState, err := raft.HasExistingState(
-		l.raftLog,
+		l.raftLog, // nicewook. logStore 역시 Close 해주어야 한다
 		stableStore,
 		snapshotStore,
 	)
@@ -124,7 +125,7 @@ func (l *DistributedLog) setupRaft(dataDir string) error {
 		config := raft.Configuration{
 			Servers: []raft.Server{{
 				ID:      config.LocalID,
-				Address: transport.LocalAddr(),
+				Address: raft.ServerAddress(l.config.Raft.BindAddr),
 			}},
 		}
 		err = l.raft.BootstrapCluster(config).Error()

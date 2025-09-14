@@ -51,3 +51,25 @@ go get github.com/hashicorp/raft@v1.3.6
 - 래프트가 클러스터 내 서버들과 그 주소 등의 클러스터 설정을 저장하는 안정적 저장소
 - 레프트가 데이터의 스냅숏을 찍어 저장하는 스냅숏 저장소
 - 래프트가 서버를 다른 서버에 연결할 때 사용하는 전송
+
+
+## Helm
+
+minikube 환경일 경우
+```bash
+eval $(minikube -p minikube docker-env)
+```
+
+차트 설치
+```bash
+helm install proglog deploy/proglog
+```
+
+포트 포워딩
+```bash
+kubectl port-forward pod/proglog-0 8400
+```
+
+```bash
+go run cmd/getservers/main.go
+```
