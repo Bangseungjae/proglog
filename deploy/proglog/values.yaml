@@ -1,8 +1,8 @@
 # proglog 기본값
 image:
   repository: github.com/bangseungjae/proglog
-  tag: 0.0.1
-  pullPolicy: IfNotPresent
+  tag: 0.0.2
+  pullPolicy: Always
 serfPort: 8401
 rpcPort: 8400
 replicas: 3

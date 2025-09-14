@@ -71,6 +71,6 @@ test: $(CONFIG_PATH)/policy.csv $(CONFIG_PATH)/model.conf
 	go test -race ./... -v
 # END: auth
 
-TAG ?= 0.0.1
+TAG ?= 0.0.2
 build-docker:
 	docker build -t github.com/bangseungjae/proglog:$(TAG) -f ./DeployLocal/Dockerfile .

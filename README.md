@@ -70,6 +70,19 @@ helm install proglog deploy/proglog
 kubectl port-forward pod/proglog-0 8400
 ```
 
+서버 목록 요청
 ```bash
 go run cmd/getservers/main.go
+servers:
+        - id:"proglog-0" rpc_addr:"proglog-0.proglog.default.svc.cluster.local:8400"
+        - id:"proglog-1" rpc_addr:"proglog-1.proglog.default.svc.cluster.local:8400"
+        - id:"proglog-2" rpc_addr:"proglog-2.proglog.default.svc.cluster.local:8400"
+```
+
+
+삭제
+```bash
+helm uninstall proglog
+kubectl delete pvc -l app.kubernetes.io/name=proglog
+helm install proglog deploy/proglog
 ```
